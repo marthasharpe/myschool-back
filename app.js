@@ -16,11 +16,22 @@ app.use(bodyParser.urlencoded({extended: false}));
 // parse json data
 app.use(bodyParser.json());
 
-// use middleware for requests
+// handle CORS errors (enforced by the browser)
+app.use((req, res, next) => {
+    // add headers to response
+    res.header('Access-Control-Allow-Origin', '*'); // allow access to any origin
+    res.header('Access-Control-Allow-Headers', '*'); // allow any headers
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+        res.status(200).json({});
+    }
+})
+
+// routes which should handle requests
 app.use('/subjects', subjectRoutes);
 app.use('/resources', resourceRoutes);
 
-// handle any request that does not meet the above routes
+// handle any request that does not match the above routes
 app.use((req, res, next) => {
     const error = new Error('Not found');
     error.status = 404;

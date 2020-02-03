@@ -10,8 +10,13 @@ router.get('/', (req, res, next) => {
 
 // handle POST requests to /subjects
 router.post('/', (req, res, next) => {
+    // form of POST request
+    const subject = {
+        tab: req.body.tab,
+    }
     res.status(201).json({
-        message: 'Handling post requests to /subjects'
+        message: 'Handling post requests to /subjects',
+        subject,
     })
 })
 

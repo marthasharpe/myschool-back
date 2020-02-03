@@ -10,8 +10,17 @@ router.get('/', (req, res, next) => {
 
 // handle POST requests to /resources
 router.post('/', (req, res, next) => {
+    // form of POST request
+    const resource = {
+        title: req.body.title,
+        description: req.body.description,
+        link: req.body.link,
+        subject: req.body.subject,
+        status: req.body.status,
+    }
     res.status(201).json({
-        message: 'Handling post requests to /resources'
+        message: 'Handling post requests to /resources',
+        resource,
     })
 })
 
