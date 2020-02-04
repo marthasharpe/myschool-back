@@ -4,10 +4,19 @@ const app = express();
 const morgan = require('morgan');
 // package to parse incoming data from the body such as files or JSON
 const bodyParser = require('body-parser');
+// import Mongoose as Mongo client
+const mongoose = require('mongoose');
+// import environment variables
+const dotenv = require('dotenv')
+dotenv.config();
+const url = process.env.DB_URI;
 
 // import routes
 const subjectRoutes = require('./api/routes/subjects');
 const resourceRoutes = require('./api/routes/resources');
+
+// connect to Mongo Client
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // use morgan logger during development
 app.use(morgan('dev'));;
@@ -15,6 +24,7 @@ app.use(morgan('dev'));;
 app.use(bodyParser.urlencoded({extended: false}));
 // parse json data
 app.use(bodyParser.json());
+
 
 // handle CORS errors (enforced by the browser)
 app.use((req, res, next) => {
@@ -25,6 +35,7 @@ app.use((req, res, next) => {
         res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
         res.status(200).json({});
     }
+    next(); // to move on to route handling
 })
 
 // routes which should handle requests
