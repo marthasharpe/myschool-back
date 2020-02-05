@@ -8,9 +8,20 @@ const Subject = require('../models/subject');
 // handle GET requests to /subjects
 router.get('/', (req, res, next) => {
     Subject.find()
+        .select('_id tab') // only these fields
         .exec()
         .then(docs => {
-            res.status(200).json(docs);
+            // specify format of response
+            const response = {
+                count: docs.length,
+                subjects: docs.map(doc => {
+                    return {
+                        _id: doc._id,
+                        tab: doc.tab,
+                    }
+                })
+            }
+            res.status(200).json(response);
         })
         .catch(error => {
             res.status(500).json({error});
@@ -28,8 +39,11 @@ router.post('/', (req, res, next) => {
         .save()
         .then(result => {
             res.status(201).json({
-                message: 'Handling post requests to /subjects',
-                subject,
+                message: 'Created new subject',
+                newSubject: {
+                    _id: result._id,
+                    tab: result.tab,
+                }
             })
         })
         .catch(error => {
@@ -41,12 +55,20 @@ router.post('/', (req, res, next) => {
 router.get('/:subjectId', (req, res, next) => {
     const id = req.params.subjectId;
     Subject.findById(id)
+        .select('_id tab') // only these fields
         .exec()
         .then(doc => {
             if (doc) {
-                res.status(200).json(doc);
+                // specify format of response
+                const response = {
+                    _id: doc._id,
+                    tab: doc.tab,              
+                }
+                res.status(200).json(response);
             } else {
-                res.status(404).json({ message: 'No valid entry found for provided ID'});
+                res.status(404).json({
+                    message: 'No valid entry found for provided ID'
+                });
             }
         })
         .catch(error => {
@@ -61,7 +83,10 @@ router.patch('/:subjectId', (req, res, next) => {
     Subject.update({ _id: id }, { $set: updateObject })
         .exec()
         .then(result => {
-            res.status(200).json(result)
+            res.status(200).json({
+                message: 'Subject updated',
+                tab: result.tab
+            })
         })
         .catch(error => {
             res.status(500).json({error})
@@ -74,7 +99,9 @@ router.delete('/:subjectId', (req, res, next) => {
     Subject.remove({_id: id})
         .exec()
         .then(result => {
-            res.status(200).json(result);
+            res.status(200).json({
+                message: 'Subject Deleted',
+            });
         })
         .catch(error => {
             res.status(500).json({error});
