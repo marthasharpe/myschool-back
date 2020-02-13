@@ -86,10 +86,25 @@ router.get('/:resourceId', (req, res, next) => {
 
 // handle PATCH requests to /resources/:resourceId
 router.patch('/:resourceId', (req, res, next) => {
-    res.status(200).json({
-        message: 'Updated resource',
-        id: req.params.resourceId
-    })
+    const id = req.params.resourceId;
+    const updateObject = req.body;
+    Resource.update({ _id: id }, { $set: updateObject })
+        .exec()
+        .then(resource => {
+            res.status(200).json({
+                message: 'Resource updated',
+                resource: {
+                    title: resource.title,
+                    description: resource.description,
+                    link: resource.link,
+                    status: resource.status,
+                    subject: resource.subject
+                }
+            })
+        })
+        .catch(error => {
+            res.status(500).json({error})
+        })
 })
 
 // handle DELETE requests to /resources/:resourceId
