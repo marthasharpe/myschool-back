@@ -62,10 +62,26 @@ router.post('/', (req, res, next) => {
 
 // handle GET requests to /resources/:resourceId
 router.get('/:resourceId', (req, res, next) => {
-    res.status(200).json({
-        message: 'Resource details',
-        id: req.params.resourceId
-    })
+    Resource.findById(req.params.resourceId)
+        .exec()
+        .then(resource => {
+            if (!resource) {
+                return res.status(404).json({
+                    message: 'Resource not found.'
+                })
+            }
+            res.status(200).json({
+                _id: resource._id,
+                title: resource.title,
+                description: resource.description,
+                link: resource.link,
+                status: resource.status,
+                subject: resource.subject
+            })
+        })
+        .catch(error => {
+            res.status(500).json({ error })
+        })
 })
 
 // handle PATCH requests to /resources/:resourceId
@@ -78,10 +94,16 @@ router.patch('/:resourceId', (req, res, next) => {
 
 // handle DELETE requests to /resources/:resourceId
 router.delete('/:resourceId', (req, res, next) => {
-    res.status(200).json({
-        message: 'Deleted resource',
-        id: req.params.resourceId
-    })
+    Resource.remove({ _id: req.params.resourceId })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: 'Resource removed.'
+            })
+        })
+        .catch(error => {
+            res.status(500).json({ error })
+        })
 })
 
 module.exports = router;
