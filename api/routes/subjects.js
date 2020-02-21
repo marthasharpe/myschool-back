@@ -8,7 +8,7 @@ const Subject = require('../models/subject');
 // handle GET requests to /subjects
 router.get('/', (req, res, next) => {
     Subject.find()
-        .select('_id tab') // only these fields
+        .select('_id name') // only these fields
         .exec()
         .then(docs => {
             // specify format of response
@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
                 subjects: docs.map(doc => {
                     return {
                         _id: doc._id,
-                        tab: doc.tab,
+                        name: doc.name,
                     }
                 })
             }
@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
     // new instance of Subject
     const subject = new Subject({
         _id: new mongoose.Types.ObjectId(),
-        tab: req.body.tab
+        name: req.body.name
     })
     subject
         .save()
@@ -42,7 +42,7 @@ router.post('/', (req, res, next) => {
                 message: 'Created new subject',
                 newSubject: {
                     _id: result._id,
-                    tab: result.tab,
+                    name: result.name,
                 }
             })
         })
@@ -55,14 +55,14 @@ router.post('/', (req, res, next) => {
 router.get('/:subjectId', (req, res, next) => {
     const id = req.params.subjectId;
     Subject.findById(id)
-        .select('_id tab') // only these fields
+        .select('_id name') // only these fields
         .exec()
         .then(doc => {
             if (doc) {
                 // specify format of response
                 const response = {
                     _id: doc._id,
-                    tab: doc.tab,              
+                    name: doc.name,              
                 }
                 res.status(200).json(response);
             } else {
@@ -85,7 +85,7 @@ router.patch('/:subjectId', (req, res, next) => {
         .then(result => {
             res.status(200).json({
                 message: 'Subject updated',
-                tab: result.tab
+                name: result.name
             })
         })
         .catch(error => {
