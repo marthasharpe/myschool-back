@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 // import environment variables
 const dotenv = require('dotenv')
 dotenv.config();
-const url = process.env.DB_URI;
+const url = process.env.MONGODB_URI;
 
 // import routes
 const subjectRoutes = require('./api/routes/subjects');
