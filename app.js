@@ -14,6 +14,7 @@ const url = process.env.MONGODB_URI;
 // import routes
 const subjectRoutes = require('./api/routes/subjects');
 const resourceRoutes = require('./api/routes/resources');
+const userRoutes = require('./api/routes/users');
 
 // connect to Mongo Client
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
 // routes which should handle requests
 app.use('/subjects', subjectRoutes);
 app.use('/resources', resourceRoutes);
+app.use('/users', userRoutes);
 
 // handle any request that does not match the above routes
 app.use((req, res, next) => {
