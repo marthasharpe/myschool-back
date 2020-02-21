@@ -45,4 +45,17 @@ router.post('/signup', (req, res, next) => {
 
 })
 
+router.delete('/:userId', (req, res, next) => {
+    User.remove({_id: req.params.userId})
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: "user deleted"
+            })
+        })
+        .catch(error => {
+            res.status(500).json({error});
+        });
+})
+
 module.exports = router;
