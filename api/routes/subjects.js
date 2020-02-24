@@ -39,7 +39,7 @@ router.post('/', (req, res, next) => {
         .save()
         .then(result => {
             res.status(201).json({
-                message: 'Created new subject',
+                message: 'created new subject',
                 newSubject: {
                     _id: result._id,
                     name: result.name,
@@ -67,7 +67,7 @@ router.get('/:subjectId', (req, res, next) => {
                 res.status(200).json(response);
             } else {
                 res.status(404).json({
-                    message: 'No valid entry found for provided ID'
+                    message: 'No entry found for provided ID'
                 });
             }
         })
@@ -84,7 +84,7 @@ router.patch('/:subjectId', (req, res, next) => {
         .exec()
         .then(result => {
             res.status(200).json({
-                message: 'Subject updated',
+                message: 'subject updated',
                 name: result.name
             })
         })
@@ -100,7 +100,7 @@ router.delete('/:subjectId', (req, res, next) => {
         .exec()
         .then(result => {
             res.status(200).json({
-                message: 'Subject Deleted',
+                message: 'subject deleted',
             });
         })
         .catch(error => {
