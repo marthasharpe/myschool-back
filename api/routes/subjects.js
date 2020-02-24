@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
+// import middleware to check authorization
+const checkAuth = require('../middleware/checkAuth');
+
 // import subject schema
 const Subject = require('../models/subject');
 
 // handle GET requests to /subjects
-router.get('/', (req, res, next) => {
+router.get('/', checkAuth, (req, res, next) => {
     Subject.find()
         .select('_id name') // only these fields
         .exec()
@@ -29,7 +32,7 @@ router.get('/', (req, res, next) => {
 })
 
 // handle POST requests to /subjects
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
     // new instance of Subject
     const subject = new Subject({
         _id: new mongoose.Types.ObjectId(),
@@ -52,7 +55,7 @@ router.post('/', (req, res, next) => {
 })
 
 // handle GET requests to /subjects/:subjectId
-router.get('/:subjectId', (req, res, next) => {
+router.get('/:subjectId', checkAuth, (req, res, next) => {
     const id = req.params.subjectId;
     Subject.findById(id)
         .select('_id name') // only these fields
@@ -77,7 +80,7 @@ router.get('/:subjectId', (req, res, next) => {
 })
 
 // handle PATCH requests to /subjects/:subjectId
-router.patch('/:subjectId', (req, res, next) => {
+router.patch('/:subjectId', checkAuth, (req, res, next) => {
     const id = req.params.subjectId;
     const updateObject = req.body;
     Subject.update({ _id: id }, { $set: updateObject })
@@ -94,7 +97,7 @@ router.patch('/:subjectId', (req, res, next) => {
 })
 
 // handle DELETE requests to /subjects/:subjectId
-router.delete('/:subjectId', (req, res, next) => {
+router.delete('/:subjectId', checkAuth, (req, res, next) => {
     const id = req.params.subjectId;
     Subject.remove({_id: id})
         .exec()

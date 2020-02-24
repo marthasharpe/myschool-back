@@ -2,10 +2,14 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
+// import middleware to check authorization
+const checkAuth = require('../middleware/checkAuth');
+
+// import resource schema
 const Resource = require('../models/resource')
 
 // handle GET requests to /resources
-router.get('/', (req, res, next) => {
+router.get('/', checkAuth, (req, res, next) => {
     Resource.find()
         .select('title description _id link status subject')
         .exec()
@@ -30,7 +34,7 @@ router.get('/', (req, res, next) => {
 })
 
 // handle POST requests to /resources
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
     // form of POST request
     const resource = new Resource({
         _id: mongoose.Types.ObjectId(),
@@ -61,7 +65,7 @@ router.post('/', (req, res, next) => {
 })
 
 // handle GET requests to /resources/:resourceId
-router.get('/:resourceId', (req, res, next) => {
+router.get('/:resourceId', checkAuth, (req, res, next) => {
     Resource.findById(req.params.resourceId)
         .exec()
         .then(resource => {
@@ -85,7 +89,7 @@ router.get('/:resourceId', (req, res, next) => {
 })
 
 // handle PATCH requests to /resources/:resourceId
-router.patch('/:resourceId', (req, res, next) => {
+router.patch('/:resourceId', checkAuth, (req, res, next) => {
     const id = req.params.resourceId;
     const updateObject = req.body;
     Resource.update({ _id: id }, { $set: updateObject })
@@ -108,7 +112,7 @@ router.patch('/:resourceId', (req, res, next) => {
 })
 
 // handle DELETE requests to /resources/:resourceId
-router.delete('/:resourceId', (req, res, next) => {
+router.delete('/:resourceId', checkAuth, (req, res, next) => {
     Resource.remove({ _id: req.params.resourceId })
         .exec()
         .then(result => {
