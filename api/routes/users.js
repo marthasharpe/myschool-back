@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt'); // package to encrypt/hash passwords
+const jwt = require('jsonwebtoken');
 
 // import user schema
 const User = require('../models/user');
@@ -64,8 +65,20 @@ router.post('/login', (req, res, next) => {
                 }
                 // bcrypt.compare returns true or false
                 if (result) {
+                    // create json web token
+                    const token = jwt.sign(
+                        {
+                            email: user[0].email,
+                            userID: user[0]._id
+                        },
+                        process.env.JWT_KEY,
+                        {
+                            expiresIn: "1h"
+                        }
+                    )
                     return res.status(200).json({
-                        message: 'Auth successful'
+                        message: 'Auth successful',
+                        token
                     })
                 }
                 res.status(401).json({
