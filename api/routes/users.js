@@ -10,8 +10,10 @@ const UserController = require('../controllers/users');
 // user signup
 router.post('/signup', UserController.userSignup);
 
+// user login
 router.post('/login', UserController.userLogin);
 
+// delete user
 router.delete('/:userId', checkAuth, UserController.userDelete);
 
 module.exports = router;

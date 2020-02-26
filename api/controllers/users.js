@@ -30,7 +30,8 @@ exports.userSignup = (req, res, next) => {
                             .save()
                             .then(result => {
                                 res.status(201).json({
-                                    message: "user created"
+                                    message: "user created",
+                                    result
                                 })
                             })
                             .catch(error => {
@@ -70,7 +71,7 @@ exports.userLogin = (req, res, next) => {
                         },
                         process.env.JWT_KEY,
                         {
-                            expiresIn: "1h"
+                            expiresIn: "3h"
                         }
                     )
                     return res.status(200).json({
