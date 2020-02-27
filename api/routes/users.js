@@ -7,13 +7,13 @@ const checkAuth = require('../middleware/checkAuth');
 // import user controller
 const UserController = require('../controllers/users');
 
-// user signup
+// handle POST requests to users/signup
 router.post('/signup', UserController.userSignup);
 
-// user login
+// handle POST requests to users/login
 router.post('/login', UserController.userLogin);
 
-// delete user
+// handle DELETE requests to users/:userId
 router.delete('/:userId', checkAuth, UserController.userDelete);
 
 module.exports = router;

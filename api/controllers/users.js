@@ -26,12 +26,26 @@ exports.userSignup = (req, res, next) => {
                             email: req.body.email,
                             password: hash
                         })  
-                        user
-                            .save()
+                        user.save()
                             .then(result => {
+                                // create json web token
+                                let token = jwt.sign(
+                                    {
+                                        email: result.email,
+                                        userId: result._id
+                                    },
+                                    process.env.JWT_KEY,
+                                    {
+                                        expiresIn: "10h"
+                                    }
+                                )
                                 res.status(201).json({
                                     message: "user created",
-                                    result
+                                    token,
+                                    user: {
+                                        _id: result._id,
+                                        email: result.email
+                                    }
                                 })
                             })
                             .catch(error => {
@@ -64,19 +78,23 @@ exports.userLogin = (req, res, next) => {
                 // bcrypt.compare returns true or false
                 if (result) {
                     // create json web token
-                    const token = jwt.sign(
+                    let token = jwt.sign(
                         {
                             email: user[0].email,
-                            userID: user[0]._id
+                            userId: user[0]._id
                         },
                         process.env.JWT_KEY,
                         {
-                            expiresIn: "3h"
+                            expiresIn: "10h"
                         }
                     )
                     return res.status(200).json({
                         message: 'Auth successful',
-                        token
+                        token,
+                        user: {
+                            email: user[0].email,
+                            userId: user[0]._id
+                        }
                     })
                 }
                 res.status(401).json({
