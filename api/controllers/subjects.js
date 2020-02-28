@@ -29,8 +29,7 @@ exports.subjectsPostNew = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name
     })
-    subject
-        .save()
+    subject.save()
         .then(result => {
             res.status(201).json({
                 message: 'subject created',
