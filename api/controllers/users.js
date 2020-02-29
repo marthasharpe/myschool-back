@@ -23,6 +23,8 @@ exports.userSignup = (req, res, next) => {
                         // create new user with email and password
                         const user = new User({
                             _id: new mongoose.Types.ObjectId(),
+                            firstName: req.body.firstName,
+                            lastName: req.body.lastName,
                             email: req.body.email,
                             password: hash
                         })  
@@ -44,6 +46,8 @@ exports.userSignup = (req, res, next) => {
                                     token,
                                     user: {
                                         _id: result._id,
+                                        firstName: result.firstName,
+                                        lastName: result.lastName,
                                         email: result.email
                                     }
                                 })
@@ -94,10 +98,10 @@ exports.userLogin = (req, res, next) => {
                         message: 'Auth successful',
                         token,
                         user: {
+                            firstName: user[0].firstName,
+                            lastName: user[0].lastName,
                             email: user[0].email,
-                            userId: user[0]._id,
-                            resources: user[0].resources,
-                            subjects: user[0].subjects
+                            userId: user[0]._id
                         }
                     })
                 }
