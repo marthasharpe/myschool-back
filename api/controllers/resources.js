@@ -23,7 +23,7 @@ exports.resourcesGetAll = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json(error)
+            res.status(500).json({ error })
         })
 }
 
@@ -36,6 +36,8 @@ exports.resourcesPostNew = (req, res, next) => {
         link: req.body.link,
         status: req.body.status,
         subject: req.body.subject,
+        date: Date.now(),
+        userId: req.body.userId // ref to user creating resource
     })
     resource
         .save()
@@ -48,12 +50,14 @@ exports.resourcesPostNew = (req, res, next) => {
                     description: result.description,
                     link: result.link,
                     status: result.status,
-                    subject: result.subject,                   
+                    subject: result.subject,
+                    date: result.date,
+                    userId: result.userId
                 }
             });
         })
         .catch(error => {
-            res.status(500).json(error);
+            res.status(500).json({ error });
         })
 }
 
@@ -91,7 +95,7 @@ exports.resourcesPatchById = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({error})
+            res.status(500).json({ error })
         })
 }
 

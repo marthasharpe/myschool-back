@@ -18,7 +18,7 @@ exports.userSignup = (req, res, next) => {
                 // encrypt/hash password with salting
                 bcrypt.hash(req.body.password, 10, (error, hash) => {
                     if (error) {
-                        return res.status(500).json({error})
+                        return res.status(500).json({ error })
                     } else {
                         // create new user with email and password
                         const user = new User({
@@ -49,13 +49,15 @@ exports.userSignup = (req, res, next) => {
                                 })
                             })
                             .catch(error => {
-                                res.status(500).json({error})
+                                res.status(500).json({ error })
                             });         
                     }
                 })
             }
-        });
-
+        })
+        .catch(error => {
+            res.status(500).json({ error })
+        })
 }
 
 exports.userLogin = (req, res, next) => {
@@ -93,7 +95,9 @@ exports.userLogin = (req, res, next) => {
                         token,
                         user: {
                             email: user[0].email,
-                            userId: user[0]._id
+                            userId: user[0]._id,
+                            resources: user[0].resources,
+                            subjects: user[0].subjects
                         }
                     })
                 }
@@ -103,7 +107,7 @@ exports.userLogin = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({error});
+            res.status(500).json({ error });
         });
 }
 
@@ -116,6 +120,6 @@ exports.userDelete = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({error});
+            res.status(500).json({ error });
         });
 }

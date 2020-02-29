@@ -7,7 +7,11 @@ const resourceSchema = mongoose.Schema({
     link: { type: String, required: true },
     status: { type: String, required: true },
     subject: { type: String, required: true },
-    date: { type: Date, default: Date.now() }
+    date: { type: Date, default: Date.now() },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 // export name of model and schema of model

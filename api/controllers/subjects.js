@@ -19,7 +19,7 @@ exports.subjectsGetAll = (req, res, next) => {
             });
         })
         .catch(error => {
-            res.status(500).json({error});
+            res.status(500).json({ error });
         })
 }
 
@@ -27,7 +27,8 @@ exports.subjectsPostNew = (req, res, next) => {
     // new instance of Subject
     const subject = new Subject({
         _id: new mongoose.Types.ObjectId(),
-        name: req.body.name
+        name: req.body.name,
+        userId: req.body.userId // ref to user creating subject
     })
     subject.save()
         .then(result => {
@@ -36,11 +37,12 @@ exports.subjectsPostNew = (req, res, next) => {
                 newSubject: {
                     _id: result._id,
                     name: result.name,
+                    userId: result.userId
                 }
             })
         })
         .catch(error => {
-            res.status(500).json({error})
+            res.status(500).json({ error })
         });
 }
 
@@ -62,7 +64,7 @@ exports.subjectsGetById = (req, res, next) => {
             }
         })
         .catch(error => {
-            res.status(500).json({error})
+            res.status(500).json({ error })
         })
 }
 
@@ -77,7 +79,7 @@ exports.subjectsPatchById = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({error})
+            res.status(500).json({ error })
         })
 }
 
@@ -91,6 +93,6 @@ exports.subjectsDeleteById = (req, res, next) => {
             });
         })
         .catch(error => {
-            res.status(500).json({error});
+            res.status(500).json({ error });
         })
 }
