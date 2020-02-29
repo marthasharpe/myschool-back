@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Resource = require('../models/resource')
 
 exports.resourcesGetAll = (req, res, next) => {
-    Resource.find()
+    Resource.find({ userId: req.body.userId })
         .select('title description _id link status subject')
         .exec()
         .then(docs => {

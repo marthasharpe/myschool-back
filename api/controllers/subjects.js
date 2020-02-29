@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Subject = require('../models/subject');
 
 exports.subjectsGetAll = (req, res, next) => {
-    Subject.find()
+    Subject.find({ userId: req.body.userId })
         .select('_id name') // only these fields
         .exec()
         .then(docs => {

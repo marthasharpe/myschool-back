@@ -10,18 +10,6 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true},
-    resources: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Resource'
-        }
-    ],
-    subjects: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Subject'
-        }
-    ]
 });
 
 // export name of model and schema of model
