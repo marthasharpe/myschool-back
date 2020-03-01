@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 // import resource schema
-const Resource = require('../models/resource')
+const Resource = require('../models/resource');
 
 exports.resourcesGetAll = (req, res, next) => {
-    Resource.find({ userId: req.body.userId })
+    Resource.find()
         .select('title description _id link status subject')
         .exec()
         .then(docs => {
@@ -76,7 +76,8 @@ exports.resourcesGetById = (req, res, next) => {
                 description: resource.description,
                 link: resource.link,
                 status: resource.status,
-                subject: resource.subject
+                subject: resource.subject,
+                userId: result.userId
             })
         })
         .catch(error => {

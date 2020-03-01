@@ -17,7 +17,8 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true}
+        required: true
+    }
 });
 
 // export name of model and schema of model

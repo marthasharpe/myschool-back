@@ -8,18 +8,18 @@ const checkAuth = require('../middleware/checkAuth');
 const SubjectController = require('../controllers/subjects');
 
 // handle GET requests to /subjects
-router.get('/', checkAuth, SubjectController.subjectsGetAll);
+router.get('/:userId', checkAuth, SubjectController.subjectsGetAll);
 
 // handle POST requests to /subjects
-router.post('/', checkAuth, SubjectController.subjectsPostNew);
+router.post('/:userId', checkAuth, SubjectController.subjectsPostNew);
 
 // handle GET requests to /subjects/:subjectId
-router.get('/:subjectId', checkAuth, SubjectController.subjectsGetById);
+router.get('/:userId/:subjectId', checkAuth, SubjectController.subjectsGetById);
 
 // handle PATCH requests to /subjects/:subjectId
-router.patch('/:subjectId', checkAuth, SubjectController.subjectsPatchById);
+router.patch('/:userId/:subjectId', checkAuth, SubjectController.subjectsPatchById);
 
 // handle DELETE requests to /subjects/:subjectId
-router.delete('/:subjectId', checkAuth, SubjectController.subjectsDeleteById);
+router.delete('/:userId/:subjectId', checkAuth, SubjectController.subjectsDeleteById);
 
 module.exports = router;

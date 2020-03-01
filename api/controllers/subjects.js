@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Subject = require('../models/subject');
 
 exports.subjectsGetAll = (req, res, next) => {
-    Subject.find({ userId: req.body.userId })
+    Subject.find({ userId: req.params.userId })
         .select('_id name') // only these fields
         .exec()
         .then(docs => {
@@ -48,14 +48,15 @@ exports.subjectsPostNew = (req, res, next) => {
 
 exports.subjectsGetById = (req, res, next) => {
     const id = req.params.subjectId;
-    Subject.findById(id)
+    Subject.findById({ _id: id })
         .select('_id name') // only these fields
         .exec()
         .then(doc => {
             if (doc) {
                 res.status(200).json({
                     _id: doc._id,
-                    name: doc.name,              
+                    name: doc.name,
+                    userId: result.userId           
                 });
             } else {
                 res.status(404).json({

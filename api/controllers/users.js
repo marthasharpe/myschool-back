@@ -127,3 +127,16 @@ exports.userDelete = (req, res, next) => {
             res.status(500).json({ error });
         });
 }
+
+exports.getUserById = (req, res, next) => {
+    User.findById(req.params.userId)
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                user: result
+            })
+        })
+        .catch(error => {
+            res.status(500).json({ error });
+        });
+}

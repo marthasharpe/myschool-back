@@ -8,18 +8,18 @@ const checkAuth = require('../middleware/checkAuth');
 const ResourceController = require('../controllers/resources');
 
 // handle GET requests to /resources
-router.get('/', checkAuth, ResourceController.resourcesGetAll);
+router.get('/:userId', checkAuth, ResourceController.resourcesGetAll);
 
 // handle POST requests to /resources
-router.post('/', checkAuth, ResourceController.resourcesPostNew);
+router.post('/:userId', checkAuth, ResourceController.resourcesPostNew);
 
 // handle GET requests to /resources/:resourceId
-router.get('/:resourceId', checkAuth, ResourceController.resourcesGetById);
+router.get('/:userId/:resourceId', checkAuth, ResourceController.resourcesGetById);
 
 // handle PATCH requests to /resources/:resourceId
-router.patch('/:resourceId', checkAuth, ResourceController.resourcesPatchById);
+router.patch('/:userId/:resourceId', checkAuth, ResourceController.resourcesPatchById);
 
 // handle DELETE requests to /resources/:resourceId
-router.delete('/:resourceId', checkAuth, ResourceController.resourcesDeleteById);
+router.delete('/:userId/:resourceId', checkAuth, ResourceController.resourcesDeleteById);
 
 module.exports = router;
