@@ -69,21 +69,6 @@ exports.subjectsGetById = (req, res, next) => {
         })
 }
 
-exports.subjectsPatchById = (req, res, next) => {
-    const id = req.params.subjectId;
-    const updateObject = req.body;
-    Subject.update({ _id: id }, { $set: updateObject })
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: 'subject updated'
-            })
-        })
-        .catch(error => {
-            res.status(500).json({ error })
-        })
-}
-
 exports.subjectsDeleteById = (req, res, next) => {
     const id = req.params.subjectId;
     Subject.remove({_id: id})

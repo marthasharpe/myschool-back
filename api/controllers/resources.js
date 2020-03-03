@@ -52,7 +52,6 @@ exports.resourcesPostNew = (req, res, next) => {
                     status: result.status,
                     subject: result.subject,
                     date: result.date,
-                    userId: result.userId
                 }
             });
         })
@@ -85,14 +84,19 @@ exports.resourcesGetById = (req, res, next) => {
         })
 }
 
-exports.resourcesPatchById = (req, res, next) => {
-    const id = req.params.resourceId;
-    const updateObject = req.body;
-    Resource.update({ _id: id }, { $set: updateObject })
+exports.resourcesPutById = (req, res, next) => {
+    Resource.findByIdAndUpdate(req.params.resourceId, req.body, {new: true})
         .exec()
         .then(result => {
             res.status(200).json({
-                message: 'resource updated'
+                message: 'resource updated',
+                resource: {
+                    title: result.title,
+                    description: result.description,
+                    link: result.link,
+                    status: result.status,
+                    subject: result.subject,
+                }
             })
         })
         .catch(error => {

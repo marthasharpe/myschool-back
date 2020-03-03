@@ -16,9 +16,6 @@ router.post('/:userId', checkAuth, SubjectController.subjectsPostNew);
 // handle GET requests to /subjects/:subjectId
 router.get('/:userId/:subjectId', checkAuth, SubjectController.subjectsGetById);
 
-// handle PATCH requests to /subjects/:subjectId
-router.patch('/:userId/:subjectId', checkAuth, SubjectController.subjectsPatchById);
-
 // handle DELETE requests to /subjects/:subjectId
 router.delete('/:userId/:subjectId', checkAuth, SubjectController.subjectsDeleteById);
 

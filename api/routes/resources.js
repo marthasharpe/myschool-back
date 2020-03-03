@@ -17,7 +17,7 @@ router.post('/:userId', checkAuth, ResourceController.resourcesPostNew);
 router.get('/:userId/:resourceId', checkAuth, ResourceController.resourcesGetById);
 
 // handle PATCH requests to /resources/:resourceId
-router.patch('/:userId/:resourceId', checkAuth, ResourceController.resourcesPatchById);
+router.put('/:userId/:resourceId', checkAuth, ResourceController.resourcesPutById);
 
 // handle DELETE requests to /resources/:resourceId
 router.delete('/:userId/:resourceId', checkAuth, ResourceController.resourcesDeleteById);
