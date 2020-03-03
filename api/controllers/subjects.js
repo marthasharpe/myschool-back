@@ -28,7 +28,7 @@ exports.subjectsPostNew = (req, res, next) => {
     const subject = new Subject({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        userId: req.body.userId // ref to user creating subject
+        userId: req.params.userId // ref to user creating subject
     })
     subject.save()
         .then(result => {

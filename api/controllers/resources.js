@@ -37,7 +37,7 @@ exports.resourcesPostNew = (req, res, next) => {
         status: req.body.status,
         subject: req.body.subject,
         date: Date.now(),
-        userId: req.body.userId // ref to user creating resource
+        userId: req.params.userId // ref to user creating resource
     })
     resource
         .save()
