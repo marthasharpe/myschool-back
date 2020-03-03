@@ -90,7 +90,8 @@ exports.resourcesPutById = (req, res, next) => {
         .then(result => {
             res.status(200).json({
                 message: 'resource updated',
-                resource: {
+                updatedResource: {
+                    _id: result._id,
                     title: result.title,
                     description: result.description,
                     link: result.link,
