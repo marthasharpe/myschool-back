@@ -1,5 +1,8 @@
+// import express
 const express = require('express');
 const app = express();
+// import package for handling cors
+const cors = require('cors');
 // package for logging requests
 const morgan = require('morgan');
 // package to parse incoming data from the body such as files or JSON
@@ -7,7 +10,7 @@ const bodyParser = require('body-parser');
 // import Mongoose as Mongo client
 const mongoose = require('mongoose');
 // import environment variables
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
 dotenv.config();
 const url = process.env.MONGODB_URI;
 
@@ -26,18 +29,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 // parse json data
 app.use(bodyParser.json());
 
-
-// handle CORS errors (enforced by the browser)
-app.use((req, res, next) => {
-    // add headers to response
-    res.header('Access-Control-Allow-Origin', '*'); // allow access to any origin
-    res.header('Access-Control-Allow-Headers', '*'); // allow any headers
-    if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        res.status(200).json({});
-    }
-    next(); // to move on to route handling
-})
+// using CORS to allow url origin (enforced by the browser)
+app.use(cors({ origin: 'http://localhost:3000' }));
 
 // routes which should handle requests
 app.use('/subjects', subjectRoutes);
