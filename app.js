@@ -30,7 +30,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // using CORS to allow url origin (enforced by the browser)
-app.use(cors({ origin: 'http://localhost:3000' }));
+const allowedOrigins = ['http://localhost:3000', 'https://my-school.netlify.com/'];
+app.use(cors({
+  origin: (origin, callback) => {
+    if(allowedOrigins.indexOf(origin) !== -1){
+        return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  }
+}));
 
 // routes which should handle requests
 app.use('/subjects', subjectRoutes);
