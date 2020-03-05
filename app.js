@@ -30,15 +30,23 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // using CORS to allow url origin (enforced by the browser)
-const allowedOrigins = ['http://localhost:3000', 'https://my-school.netlify.com/'];
+// const allowedOrigins = ['http://localhost:3000', 'https://my-school.netlify.com/'];
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     if(allowedOrigins.indexOf(origin) !== -1){
+//         return callback(null, true);
+//     }
+//     return callback(new Error('Not allowed by CORS'));
+//   }
+// }));
 app.use(cors({
-  origin: (origin, callback) => {
-    if(allowedOrigins.indexOf(origin) !== -1){
-        return callback(null, true);
-    }
-    return callback(new Error('Not allowed by CORS'));
-  }
-}));
+  origin: 'https://my-school.netlify.com'
+}))
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "https://my-school.netlify.com/");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+//   });
 
 // routes which should handle requests
 app.use('/subjects', subjectRoutes);
