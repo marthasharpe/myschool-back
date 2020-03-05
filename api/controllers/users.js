@@ -18,7 +18,10 @@ exports.userSignup = (req, res, next) => {
                 // encrypt/hash password with salting
                 bcrypt.hash(req.body.password, 10, (error, hash) => {
                     if (error) {
-                        return res.status(500).json({ error })
+                        return res.status(500).json({
+                            message: 'Something went wrong.',
+                            error
+                        })
                     } else {
                         // create new user with email and password
                         const user = new User({
@@ -53,7 +56,10 @@ exports.userSignup = (req, res, next) => {
                                 })
                             })
                             .catch(error => {
-                                res.status(500).json({ error })
+                                res.status(500).json({
+                                    message: 'Something went wrong',
+                                    error
+                                })
                             });         
                     }
                 })
@@ -111,7 +117,10 @@ exports.userLogin = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({ error });
+            res.status(500).json({
+                message: 'Something went wrong.',
+                error
+            });
         });
 }
 
@@ -124,6 +133,9 @@ exports.userDelete = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({ error });
+            res.status(500).json({
+                message: 'Something went wrong.',
+                error
+            });
         });
 }

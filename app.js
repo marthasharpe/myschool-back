@@ -24,15 +24,13 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // use morgan logger during development
 app.use(morgan('dev'));;
-// parse url encoded data
-app.use(bodyParser.urlencoded({extended: false}));
+// parse url encoded data, extended to nested data
+app.use(bodyParser.urlencoded({extended: true}));
 // parse json data
 app.use(bodyParser.json());
 
 // using CORS to allow url origin (enforced by the browser)
-app.use(cors({
-  origin: 'https://my-school.netlify.com'
-}))
+app.use(cors());
 
 // routes which should handle requests
 app.use('/subjects', subjectRoutes);

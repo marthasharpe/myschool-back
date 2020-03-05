@@ -23,7 +23,10 @@ exports.resourcesGetAll = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({ error })
+            res.status(500).json({
+                message: 'Failed to get resources.',
+                error
+            })
         })
 }
 
@@ -56,7 +59,10 @@ exports.resourcesPostNew = (req, res, next) => {
             });
         })
         .catch(error => {
-            res.status(500).json({ error });
+            res.status(500).json({
+                message: 'Failed to add resource.',
+                error
+            });
         })
 }
 
@@ -80,7 +86,10 @@ exports.resourcesGetById = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({ error })
+            res.status(500).json({
+                message: 'Something went wrong.',
+                error
+            })
         })
 }
 
@@ -101,7 +110,10 @@ exports.resourcesPutById = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({ error })
+            res.status(500).json({
+                message: 'Something went wrong.',
+                error
+            })
         })
 }
 
@@ -114,6 +126,9 @@ exports.resourcesDeleteById = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({ error })
+            res.status(500).json({
+                message: 'Something went wrong.',
+                error
+            })
         })
 }

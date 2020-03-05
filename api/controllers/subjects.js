@@ -19,7 +19,10 @@ exports.subjectsGetAll = (req, res, next) => {
             });
         })
         .catch(error => {
-            res.status(500).json({ error });
+            res.status(500).json({
+                message: 'Failed to get subjects.',
+                error
+            });
         })
 }
 
@@ -42,7 +45,10 @@ exports.subjectsPostNew = (req, res, next) => {
             })
         })
         .catch(error => {
-            res.status(500).json({ error })
+            res.status(500).json({
+                message: 'Failed to add subject.',
+                error
+            })
         });
 }
 
@@ -65,7 +71,10 @@ exports.subjectsGetById = (req, res, next) => {
             }
         })
         .catch(error => {
-            res.status(500).json({ error })
+            res.status(500).json({
+                message: 'Something went wrong.',
+                error
+            })
         })
 }
 
@@ -79,6 +88,9 @@ exports.subjectsDeleteById = (req, res, next) => {
             });
         })
         .catch(error => {
-            res.status(500).json({ error });
+            res.status(500).json({
+                message: 'Something went wrong.',
+                error
+            });
         })
 }
