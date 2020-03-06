@@ -16,4 +16,7 @@ router.post('/login', UserController.userLogin);
 // handle DELETE requests to users/:userId
 router.delete('/:userId', checkAuth, UserController.userDelete);
 
+// handle GET requests to users/:userId
+router.get('/:userId', checkAuth, UserController.userGetById);
+
 module.exports = router;

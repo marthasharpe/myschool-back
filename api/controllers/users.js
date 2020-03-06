@@ -51,7 +51,8 @@ exports.userSignup = (req, res, next) => {
                                         _id: result._id,
                                         firstName: result.firstName,
                                         lastName: result.lastName,
-                                        email: result.email
+                                        email: result.email,
+                                        password: result.password
                                     }
                                 })
                             })
@@ -107,7 +108,8 @@ exports.userLogin = (req, res, next) => {
                             firstName: user[0].firstName,
                             lastName: user[0].lastName,
                             email: user[0].email,
-                            userId: user[0]._id
+                            password: user[0].password,
+                            userId: user[0]._id,
                         }
                     })
                 }
@@ -138,4 +140,29 @@ exports.userDelete = (req, res, next) => {
                 error
             });
         });
+}
+
+exports.userGetById = (req, res, next) => {
+    const id = req.params.userId;
+    User.findById({ _id: id })
+        .select('email password') // only these fields
+        .exec()
+        .then(user => {
+            if (user) {
+                res.status(200).json({
+                    email: user.email,
+                    password: user.password           
+                });
+            } else {
+                res.status(404).json({
+                    message: 'user not found'
+                });
+            }
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Something went wrong.',
+                error
+            })
+        })
 }
