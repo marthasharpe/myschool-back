@@ -118,7 +118,7 @@ exports.resourcesPutById = (req, res, next) => {
 }
 
 exports.resourcesDeleteById = (req, res, next) => {
-    Resource.remove({ _id: req.params.resourceId })
+    Resource.findByIdAndDelete(req.params.resourceId)
         .exec()
         .then(result => {
             res.status(200).json({

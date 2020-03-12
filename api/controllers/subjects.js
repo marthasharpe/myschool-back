@@ -53,8 +53,7 @@ exports.subjectsPostNew = (req, res, next) => {
 }
 
 exports.subjectsGetById = (req, res, next) => {
-    const id = req.params.subjectId;
-    Subject.findById({ _id: id })
+    Subject.findById(req.params.subjectId)
         .select('_id name') // only these fields
         .exec()
         .then(doc => {
@@ -79,8 +78,7 @@ exports.subjectsGetById = (req, res, next) => {
 }
 
 exports.subjectsDeleteById = (req, res, next) => {
-    const id = req.params.subjectId;
-    Subject.remove({_id: id})
+    Subject.findByIdAndDelete(req.params.subjectId)
         .exec()
         .then(result => {
             res.status(200).json({

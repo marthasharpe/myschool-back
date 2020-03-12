@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken'); // package to create web token
 
 // import user schema
 const User = require('../models/user');
+const Subject = require('../models/subject');
+const Resource = require('../models/resource');
 
 exports.userSignup = (req, res, next) => {
     // check if email is already taken
@@ -127,7 +129,15 @@ exports.userLogin = (req, res, next) => {
 }
 
 exports.userDelete = (req, res, next) => {
-    User.remove({_id: req.params.userId})
+    Subject.deleteMany({ userId: req.params.userId }, err => {
+        if(err) console.log(err);
+        console.log('subjects deleted');
+    })
+    Resource.deleteMany({ userId: req.params.userId }, err => {
+        if(err) console.log(err);
+        console.log('resources deleted');
+    })
+    User.findByIdAndDelete(req.params.userId)
         .exec()
         .then(result => {
             res.status(200).json({
@@ -143,8 +153,7 @@ exports.userDelete = (req, res, next) => {
 }
 
 exports.userGetById = (req, res, next) => {
-    const id = req.params.userId;
-    User.findById({ _id: id })
+    User.findById(req.params.userId)
         .select('email password') // only these fields
         .exec()
         .then(user => {
