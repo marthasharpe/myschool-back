@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // using CORS to allow url origin (enforced by the browser)
-app.use(cors());
+app.use(cors('https://my-school.netlify.com/'));
 
 // routes which should handle requests
 app.use('/subjects', subjectRoutes);
