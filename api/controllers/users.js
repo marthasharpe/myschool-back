@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken'); // package to create web token
 
 // import user schema
 const User = require('../models/user');
+// import other schemas to delete user documents
 const Subject = require('../models/subject');
 const Resource = require('../models/resource');
 
