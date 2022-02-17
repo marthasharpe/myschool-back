@@ -1,22 +1,26 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // import middleware to check authorization
-const checkAuth = require('../middleware/checkAuth');
+const checkAuth = require("../middleware/checkAuth");
 
 // import subject controller
-const SubjectController = require('../controllers/subjects');
+const SubjectController = require("../controllers/subjects");
 
 // handle GET requests to /subjects
-router.get('/:userId', checkAuth, SubjectController.subjectsGetAll);
+router.get("/:userId", checkAuth, SubjectController.subjectsGetAll);
 
 // handle POST requests to /subjects
-router.post('/:userId', checkAuth, SubjectController.subjectsPostNew);
+router.post("/:userId", checkAuth, SubjectController.subjectsPostNew);
 
 // handle GET requests to /subjects/:subjectId
-router.get('/:userId/:subjectId', checkAuth, SubjectController.subjectsGetById);
+router.get("/:userId/:subjectId", checkAuth, SubjectController.subjectsGetById);
 
 // handle DELETE requests to /subjects/:subjectId
-router.delete('/:userId/:subjectId', checkAuth, SubjectController.subjectsDeleteById);
+router.delete(
+  "/:userId/:subjectId",
+  checkAuth,
+  SubjectController.subjectsDeleteById
+);
 
 module.exports = router;

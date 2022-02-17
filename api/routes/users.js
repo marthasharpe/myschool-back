@@ -1,22 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // import middleware to check authorization
-const checkAuth = require('../middleware/checkAuth');
+const checkAuth = require("../middleware/checkAuth");
 
 // import user controller
-const UserController = require('../controllers/users');
+const UserController = require("../controllers/users");
 
 // handle POST requests to users/signup
-router.post('/signup', UserController.userSignup);
+router.post("/signup", UserController.userSignup);
 
 // handle POST requests to users/login
-router.post('/login', UserController.userLogin);
+router.post("/login", UserController.userLogin);
 
 // handle DELETE requests to users/:userId
-router.delete('/:userId', checkAuth, UserController.userDelete);
+router.delete("/:userId", checkAuth, UserController.userDelete);
 
 // handle GET requests to users/:userId
-router.get('/:userId', checkAuth, UserController.userGetById);
+router.get("/:userId", checkAuth, UserController.userGetById);
 
 module.exports = router;
