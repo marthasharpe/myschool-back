@@ -5,9 +5,8 @@ const resourceSchema = mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   link: { type: String },
-  status: { type: String, required: true },
   subject: { type: String },
-  date: { type: Date, default: Date.now() },
+  dateCreated: { type: Date, default: Date.now() },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

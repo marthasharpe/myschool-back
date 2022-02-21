@@ -5,7 +5,7 @@ const Resource = require("../models/resource");
 
 exports.resourcesGetAll = (req, res, next) => {
   Resource.find({ userId: req.params.userId })
-    .select("title description _id link status subject")
+    .select("title description _id link subject dateCreated")
     .exec()
     .then((docs) => {
       res.status(200).json({
@@ -16,8 +16,8 @@ exports.resourcesGetAll = (req, res, next) => {
             title: doc.title,
             description: doc.description,
             link: doc.link,
-            status: doc.status,
             subject: doc.subject,
+            dateCreated: doc.dateCreated,
           };
         }),
       });
@@ -31,15 +31,13 @@ exports.resourcesGetAll = (req, res, next) => {
 };
 
 exports.resourcesPostNew = (req, res, next) => {
-  // form of POST request
   const resource = new Resource({
     _id: mongoose.Types.ObjectId(),
     title: req.body.title,
     description: req.body.description,
     link: req.body.link,
-    status: req.body.status,
     subject: req.body.subject,
-    date: Date.now(),
+    dateCreated: Date.now(),
     userId: req.params.userId, // ref to user creating resource
   });
   resource
@@ -52,9 +50,8 @@ exports.resourcesPostNew = (req, res, next) => {
           title: result.title,
           description: result.description,
           link: result.link,
-          status: result.status,
           subject: result.subject,
-          date: result.date,
+          dateCreated: result.date,
         },
       });
     })
@@ -80,7 +77,6 @@ exports.resourcesGetById = (req, res, next) => {
         title: resource.title,
         description: resource.description,
         link: resource.link,
-        status: resource.status,
         subject: resource.subject,
         userId: result.userId,
       });
@@ -104,7 +100,6 @@ exports.resourcesPutById = (req, res, next) => {
           title: result.title,
           description: result.description,
           link: result.link,
-          status: result.status,
           subject: result.subject,
         },
       });

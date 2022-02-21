@@ -2,14 +2,6 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  firstName: {
-    type: String,
-    required: false,
-  },
-  lastName: {
-    type: String,
-    required: false,
-  },
   email: {
     type: String,
     required: true,
@@ -19,6 +11,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  dateCreated: { type: Date, default: Date.now() },
 });
 
 // export name of model and schema of model

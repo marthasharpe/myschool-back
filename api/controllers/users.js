@@ -35,20 +35,23 @@ exports.userSignup = (req, res, next) => {
             user
               .save()
               .then((result) => {
-                // create json web token
-                let token = jwt.sign(
+                //send verification email
+                // create json web tokens
+                let userData = { email: result.email, userId: result._id };
+                let token = jwt.sign(userData, process.env.JWT_KEY, {
+                  expiresIn: "1h",
+                });
+                let refreshToken = jwt.sign(
+                  userData,
+                  process.env.JWT_REFRESH_KEY,
                   {
-                    email: result.email,
-                    userId: result._id,
-                  },
-                  process.env.JWT_KEY,
-                  {
-                    expiresIn: "10h",
+                    expiresIn: "7d",
                   }
                 );
                 res.status(201).json({
                   message: "User created.",
                   token,
+                  refreshToken,
                   user: {
                     _id: result._id,
                   },
@@ -88,20 +91,18 @@ exports.userLogin = (req, res, next) => {
         }
         // bcrypt.compare returns true or false
         if (result) {
-          // create json web token
-          let token = jwt.sign(
-            {
-              email: user[0].email,
-              userId: user[0]._id,
-            },
-            process.env.JWT_KEY,
-            {
-              expiresIn: "10h",
-            }
-          );
+          let userData = { email: user[0].email, userId: user[0]._id };
+          // create json web tokens
+          let token = jwt.sign(userData, process.env.JWT_KEY, {
+            expiresIn: "1h",
+          });
+          let refreshToken = jwt.sign(userData, process.env.JWT_REFRESH_KEY, {
+            expiresIn: "7d",
+          });
           return res.status(200).json({
             message: "Login successful.",
             token,
+            refreshToken,
             user: {
               userId: user[0]._id,
             },
@@ -110,6 +111,40 @@ exports.userLogin = (req, res, next) => {
         res.status(401).json({
           message: "Login failed.",
         });
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "Something went wrong.",
+        error,
+      });
+    });
+};
+
+exports.userRefreshToken = (req, res, next) => {
+  User.find({ userId: req.params.userId })
+    .select("email userId")
+    .exec()
+    .then((user) => {
+      // check if user exists
+      if (user.length < 1) {
+        return res.status(401).json({
+          message: "User not found.",
+        });
+      }
+      if (result) {
+        let userData = { email: user[0].email, userId: user[0]._id };
+        // create json web tokens
+        let token = jwt.sign(userData, process.env.JWT_KEY, {
+          expiresIn: "1h",
+        });
+        return res.status(200).json({
+          message: "Token refreshed.",
+          token,
+        });
+      }
+      res.status(401).json({
+        message: "Token refresh failed.",
       });
     })
     .catch((error) => {
