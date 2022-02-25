@@ -13,9 +13,6 @@ router.post("/signup", UserController.userSignup);
 // handle POST requests to users/login
 router.post("/login", UserController.userLogin);
 
-// handle POST requests to users/token
-router.post("/refreshtoken", UserController.userRefreshToken);
-
 // handle DELETE requests to users/:userId
 router.delete("/:userId", checkAuth, UserController.userDelete);
 
